@@ -25,7 +25,6 @@ app.use(cors())
 app.use(cookieParser())
 
 
-app.use('/',express.static(patho.join(__dirname,"frontend")))
 app.use("/upload",express.static(patho.join(__dirname,"upload")))
 // app.use('/',uploadImageroute)
 app.use('/',signroute)
