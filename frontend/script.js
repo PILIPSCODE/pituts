@@ -1,4 +1,4 @@
-const ENDPOINT = `http://localhost:8080`;
+const ENDPOINT = `https://pituts-pxdd.vercel.app`;
 // Memilih elemen DOM
 const el = (selector) => document.querySelector(selector);
 const [
@@ -423,7 +423,7 @@ const innerContentBlog = (e) => {
   return `
   <div class="conimage">
           <div class="profile-con-inBlog">
-              <img src="${e.pp}"  class="profile-inBlog">
+              <img src="${ENDPOINT}/${e.pp}"  class="profile-inBlog">
               <div class="col">
 
                   <h5>${e.nameofpost}</h5>
@@ -449,7 +449,7 @@ const innerContentBlog = (e) => {
 
 const commentshtml = (e) => {
   return `  <div class="comments-user-post">
-  <img src="${e.ppofcomment}">
+  <img src="${ENDPOINT}/${e.ppofcomment}">
   <div class="text-comm">
       <p><span>${e.nameofcomment}</span>,${e.comment}</p>
       <h6>${e.date}</h6>

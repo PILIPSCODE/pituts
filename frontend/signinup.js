@@ -183,6 +183,10 @@ const EditProfile = (datas) => {
     fetch(`${ENDPOINT}/upload/${datas.id}`, {
       method: "PUT",
       body: formdata,
+      headers:{
+      'Content-Type':'application/json',
+      'Access-Control-Allow-Origin':'*',
+      'Access-Control-Allow-Methods':'PUT,GET,POST,PATCH,OPTIONS'}
     })
       .then((res) => res.json())
       .then((data) => {
