@@ -14,13 +14,12 @@ const todoRoute = require('./Router/Todoroute')
 const follow = require('./Router/follow')
 const comments = require('./Router/commentsRoute')
 const { Server } = require("socket.io");
-const cors = require('cors')
 const io = new Server({
   serveClient: false
 });
 
 
-app.use(cors())
+
 
 app.use(cookieParser())
 
