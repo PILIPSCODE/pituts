@@ -20,6 +20,17 @@ const io = new Server({
 });
 
 
+
+
+
+app.use((req,res,next) => {
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,DELETE,PATCH,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers' ,'Content-Type, Authorization');
+  next()
+})
+
+
 app.use(cors())
 
 
@@ -31,8 +42,6 @@ app.use((req,res,next) => {
 })
 app.use(cookieParser())
 
-
-app.use('/',express.static(patho.join(__dirname,"frontend")))
 app.use("/upload",express.static(patho.join(__dirname,"upload")))
 // app.use('/',uploadImageroute)
 app.use('/',signroute)
