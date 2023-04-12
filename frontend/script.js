@@ -1,6 +1,6 @@
 
 
-const ENDPOINT = `http://localhost:8080`;
+const ENDPOINT = `https://dark-tan-hippopotamus-gown.cyclic.app/`;
 // Memilih elemen DOM
 const el = (selector) => document.querySelector(selector);
 const [
