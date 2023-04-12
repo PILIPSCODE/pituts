@@ -1,6 +1,6 @@
 
 
-const ENDPOINT = `https://dark-tan-hippopotamus-gown.cyclic.app/`;
+const ENDPOINT = `https://pituts-pilipscode.vercel.app/`;
 // Memilih elemen DOM
 const el = (selector) => document.querySelector(selector);
 const [
