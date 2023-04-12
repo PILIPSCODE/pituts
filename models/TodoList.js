@@ -36,7 +36,7 @@ const todoscema = mongoose.Schema({
         type:String,
         default:0
     },
-    ispublic:false,
+    ismain:false,
     isfinish:false
 })
 

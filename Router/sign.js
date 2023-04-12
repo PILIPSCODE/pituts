@@ -9,6 +9,9 @@ router.post('/user/sign',async(req,res) => {
         return res.status(400).send({message: eror.details[0].message})
 
         const user = await Users.findOne({email:req.body.email});
+        const name = await Users.findOne({name:req.body.name});
+        if(name)
+        return res.status(409).send({message:"name Already Exist!"})
         if(user)
         return res.status(409).send({message:"Email Already Exist!"})
 

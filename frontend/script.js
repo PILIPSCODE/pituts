@@ -1,4 +1,6 @@
-const ENDPOINT = `https://pituts-pxdd.vercel.app`;
+
+
+const ENDPOINT = `http://localhost:8080`;
 // Memilih elemen DOM
 const el = (selector) => document.querySelector(selector);
 const [
@@ -10,8 +12,6 @@ const [
   displayProfile,
   containerblog,
   Todolist,
-  btnPrivate,
-  btnPublic,
   addtodo,
   Close,
   SideBarTodo,
@@ -38,6 +38,10 @@ const [
   inputtodo,
   BtnTodo,
   yourtodolist,
+  deletemaintodo,
+  infoacc,
+  imgcoke
+  
 ] = [
   ".todo-nav",
   ".search-nav",
@@ -47,8 +51,6 @@ const [
   ".display-profile",
   ".container-blog",
   ".Todo-list",
-  ".btn-private",
-  ".btn-public",
   ".add-todo",
   ".close",
   ".sidebar-todo",
@@ -75,6 +77,9 @@ const [
   ".inputtodo",
   ".btn-submit-todo",
   ".cuki",
+  ".deletemaintodo",
+  ".info-acc",
+  '.img-coke'
 ].map((selector) => el(selector));
 
 // loading
@@ -151,17 +156,18 @@ navigasi.addEventListener("click", (e) => {
     e.target.classList.add("ontap");
   }
 });
+let token;
 
-const token = localStorage.getItem("token");
 
 const closePost = document.querySelectorAll(".close-post");
 // Menambahkan event listener ke elemen searchNav dan menampilkan/menyembunyikan searchcon
 searchNav.addEventListener("click", () => {
-  if (token) {
+  if (token == true) {
     searchcon.classList.toggle("active");
   } else {
     loginsign.style.display = "flex";
     containerblog.style.display = "none";
+    getprofile()
     Todolist.style.display = "none";
   }
 });
@@ -184,6 +190,7 @@ HomeNav.addEventListener("click", () => {
     loginsign,
   ].forEach((el) => (el.style.display = "none"));
   containerblog.style.display = "block";
+  getprofile()
 });
 
 // Menambahkan event listener ke elemen todoNav untuk menampilkan todolist dan menyembunyikan blog dan displayProfile
@@ -196,7 +203,8 @@ todoNav.addEventListener("click", () => {
     absolute,
     loginsign,
   ].forEach((el) => (el.style.display = "none"));
-  Todolist.style.display = "block";
+  Todolist.style.display = "flex";
+  getprofile()
 });
 
 // Menambahkan event listener ke elemen navProfile untuk menampilkan displayProfile dan menyembunyikan blog dan todolist
@@ -208,7 +216,7 @@ navProfile.addEventListener("click", () => {
   iflogin();
 });
 const iflogin = () => {
-  if (token) {
+  if (token == true) {
     displayProfile.style.display = "block";
   } else {
     loginsign.style.display = "flex";
@@ -226,14 +234,6 @@ Close.addEventListener("click", () => {
 
 // btn private-public todo
 
-btnPrivate.addEventListener("click", () => {
-  [btnPrivate, btnPublic].forEach((e) => (e.style.background = "none"));
-  btnPrivate.style.background = "#10F5CC";
-});
-btnPublic.addEventListener("click", () => {
-  [btnPrivate, btnPublic].forEach((e) => (e.style.background = "none"));
-  btnPublic.style.background = "#10F5CC";
-});
 
 editProfile.addEventListener("click", () => {
   [containerblog, Todolist, displayProfile, absolute].forEach(
@@ -247,7 +247,7 @@ postNav.addEventListener("click", () => {
     (el) => (el.style.display = "none")
   );
 
-  if (token) {
+  if (token == true) {
     absolute.style.display = "flex";
     containerblog.style.display = "block";
   } else {
@@ -325,15 +325,25 @@ const mappContentBlog = async () => {
   blog.innerHTML = el;
 };
 
+
+
 blog.addEventListener("click", (e) => {
+
+  const cuy = e.target.parentElement.dataset.text.split(' ',4).join(' ')
   const userinfor = {
     image: e.target.parentElement.dataset.image,
     filter: e.target.parentElement.dataset.filter,
     name: e.target.parentElement.dataset.name,
     pp: e.target.parentElement.dataset.pp,
-    text: e.target.parentElement.dataset.text,
+    fulltext: e.target.parentElement.dataset.text,
+    text:cuy +  `<a class="slengkapnya">selengkapnya</a>`,
     id: e.target.parentElement.dataset.id,
   };
+
+
+
+
+
   displayComments(userinfor);
 
   if (e.target.className == "bi bi-chat-right-fill") {
@@ -343,10 +353,14 @@ blog.addEventListener("click", (e) => {
       Commentos(userinfor);
     });
   }
+  const slengkapnya = document.querySelector('.slengkapnya')
+  slengkapnya.addEventListener("click",() => {
+    usertextpost.innerHTML = userinfor.fulltext
+    imgcoke.style.overflowY="scroll"
+  })
 });
 
 let coek = "";
-console.log(coek);
 const displayComments = async (e) => {
   const res = await fetch(`${ENDPOINT}/comments`);
   const data = await res.json();
@@ -372,32 +386,35 @@ const displayComments = async (e) => {
   coek = resp.length += 1;
 };
 const Commentos = async (userinfor) => {
-  const res = await fetch(`${ENDPOINT}/comments`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      filter: userinfor.filter,
-      nameofcomment: profileuser.name,
-      ppofcomment: profileuser.image,
-      comment: comments.value,
-      email: profileuser.email,
-    }),
-  }).then(() => {
-    displayComments(userinfor);
-    fetch(`${ENDPOINT}/putcommmany/${userinfor.filter}`, {
-      method: "PUT",
+  if(!comments.value == ''){
+
+    const res = await fetch(`${ENDPOINT}/comments`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        commentar: `${coek}`,
+        filter: userinfor.filter,
+        nameofcomment: profileuser.name,
+        ppofcomment: profileuser.image,
+        comment: comments.value,
+        email: profileuser.email,
       }),
+    }).then(() => {
+      displayComments(userinfor);
+      fetch(`${ENDPOINT}/putcommmany/${userinfor.filter}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          commentar: `${coek}`,
+        }),
+      });
+      console.log(coek);
+      comments.value = "";
     });
-    console.log(coek);
-    comments.value = "";
-  });
+  }
 };
 
 const pengdisplayan = (userinfor) => {
@@ -407,11 +424,15 @@ const pengdisplayan = (userinfor) => {
     hapuspost.textContent = "Hapus Post";
     hapuspost.classList.add("hapus-post");
     titik3.appendChild(hapuspost);
-
+    infoacc.style.display = "none"
     const editPost = document.createElement("h3");
     editPost.textContent = "Edit Post";
     titik3.appendChild(editPost);
   }
+
+
+
+
 
   modalPost.style.display = "flex";
   imgmodalpost.src = userinfor.image;
@@ -438,7 +459,6 @@ const innerContentBlog = (e) => {
                   <i class="bi bi-chat-right-fill"><span>${e.comments}</span></i>
               </div>
               <p>${e.date}</p>
-              <p>${e.time}</p>
           </div>
           <div class="tulis">
               <h6>${e.postText}</h6>
@@ -462,6 +482,7 @@ mappContentBlog();
 const hapuspost = document.querySelector(".hapus-post");
 
 const hapuspostfun = (data) => {
+
   titik3.addEventListener("click", (e) => {
     console.log(data);
     if (e.target.className == "hapus-post") {
@@ -476,8 +497,88 @@ const hapuspostfun = (data) => {
         }),
       }).then(location.reload());
     }
+    if (e.target.className == "info-acc"){
+      fetch(`${ENDPOINT}/infouser`,{
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({
+          name:data.name
+        })
+      }).then(res => res.json())
+      .then(datas => {
+          displayinfoprofile(datas)
+          
+         
+        
+      }) 
+    }
   });
 };
+
+
+
+const displayinfoprofile = async(datas) => {
+  const modalPost = document.querySelector(".modal-post");
+  [containerblog, Todolist, displayProfile, sidebareditprof, absolute].forEach(
+    (el) => (el.style.display = "none"))
+    modalPost.style.display = "none";
+    displayProfile.style.display = 'block'
+    editProfile.style.display = 'none'
+
+    // map nama-web-bio-pp
+    let data = datas[0]
+    console.log(data)
+    profileName.innerHTML = data.name;
+    document.querySelector(".pp-profile").src = data.image;
+    Bio.innerHTML = data.bio;
+    Web.innerHTML = data.web;
+    Web.href = data.web;
+
+
+
+    // map konten-kontennya
+    let respon = await fetch(`${ENDPOINT}/YourPost`);
+
+    let datao = await respon.json();
+    
+    let youcontent = "";
+    datao
+      .filter((dataso) => {
+        if (dataso.nameofpost == data.name) {
+          return data;
+        }
+        return dataso.nameofpost === data.name;
+      })
+      .map((dataso) => {
+        youcontent += mappingpostuserp(dataso);
+        console .log(dataso)
+      });
+    yourcontent.innerHTML = youcontent;
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function dataURItoBlob(dataURI) {
   var byteString;
@@ -731,3 +832,84 @@ yourtodolist.addEventListener('click',(e) => {
 //   } else {
 //       console.log('return err')
 //   }
+let currentTime = new Date();
+let menit =currentTime.getMinutes()
+let pen0= ''
+if(menit <= 9 ){
+
+  pen0 = 0
+}
+
+  let time = currentTime.getHours() + "." + pen0 + menit
+  document.querySelector('.jam-tdo').innerHTML = time
+  let psm = ''
+  
+  let jam = currentTime.getHours()
+  if(jam >= 3 && jam <= 10){
+    psm= "Good Moring"
+  }else if(jam >= 10 && jam <= 14){
+    psm = "Good Afternoon"
+  }else if(jam >= 14 && jam <= 18){
+    psm= "Good Evening"
+  }else if (jam >= 18 || jam <= 3){
+    psm ="Good Night"
+  }
+
+  document.querySelector('.psm').innerHTML = psm
+
+
+
+
+const checkbox = document.getElementById('checkbox')
+
+
+
+
+checkbox.addEventListener("change", function(e) {
+  if (this.checked) {
+    let isfinishs = true
+    fetch(`${ENDPOINT}/todo-list/${e.target.dataset.id}`,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        isfinish:isfinishs
+      })
+    }).then(() => {
+      getprofile()
+    })
+  } else {
+    console.log(false)
+    fetch(`${ENDPOINT}/todo-list/${e.target.dataset.id}`,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        isfinish:false
+      })
+    }).then(() => {
+      getprofile()
+    })
+  }
+});
+~
+
+deletemaintodo.addEventListener('click',() => {
+    fetch(`${ENDPOINT}/todo-list/${checkbox.dataset.id}`,{
+      method:"DELETE",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body:null
+    }).then(() => {
+      mainTodo.style.display = 'block'
+      getprofile()
+      mun.forEach((mun) => {
+        mun.style.display = 'none'
+       })
+       
+    })
+  
+})

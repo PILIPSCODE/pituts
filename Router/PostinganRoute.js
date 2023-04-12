@@ -14,6 +14,8 @@ router.get("/YourPost",(req,res) => {
   })
 })
 
+
+
 router.get("/YourPost/:id",(req,res) => {
   postModel.findById(req.params.id,(err,data) => {
     if(err) console.log(err)

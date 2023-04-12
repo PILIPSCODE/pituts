@@ -49,7 +49,7 @@
             </a>
         </div>
         <div class="children">
-            <a href="#" class="navProfile nav-coy"><img src="https://pituts-pxdd.vercel.app\nologin pic.jpg" alt="" srcset="" width="30" class="profile">
+            <a href="#" class="navProfile nav-coy"><img src="./img/nologin pic.jpg" alt="" srcset="" width="30" class="profile">
                 <h3 class="tiltup">Account</h3>
             </a>
         </div>
@@ -353,10 +353,18 @@
 <!-- Todo-List -->
 <div class="Todo-list">
     <div class="your-todo">
-       <i class="bi bi-plus-circle add-todo"></i>  
+       <i class="add-todo">Todo</i>  
     </div>
     <div class="todo-list-user">
-        
+        <h1 class="jam-tdo">13.30</h1>
+        <h1 class="sapaancon"><span class="psm">Good afternoon</span> <span class="sapaan"></span></h1>
+        <h3 class="main focus">Apa kegiatan utamamu hari ini?</h3>
+        <input type="text" class="main-todo" onclick="setCursorPosition(event, this);">
+        <div class="flex">
+            <input type="checkbox" id="checkbox" class="mun">
+            <h1 class="yourmaintodo mun"></h1>
+            <i class="bi bi-trash-fill deletemaintodo mun"></i>
+        </div>
     </div>
 
 </div>
@@ -367,7 +375,7 @@
     <i class="bi bi-x-lg close"></i>
     <div class="title">
         <h1>Todo-list</h1>
-        <p>What is Your Focus Main Today?</p>
+        <p>Apa yang ingin kamu lakukan hari ini?</p>
     </div>
     <div class="input-todo">
        <textarea name="" id="textarea inputtodo" class="inputtodo"></textarea>
@@ -387,10 +395,7 @@
     </div>
 
 
-    <div class="private-public">
-        <img src="./img/text.gif" class="btn-private">
-        <img src="./img/text (1).gif" class="btn-public">
-    </div>
+ 
   </div>
   
 
@@ -523,7 +528,7 @@
             <div class="img-coke">
                 <i class="bi bi-three-dots-vertical"></i>
                 <div class="titik3">
-                    <h3>Info Account</h3>
+                    <h3 class="info-acc">Info Account</h3>
                 </div>
                 <div class="user-modal">
                     <img src="" id="pp-modal">
@@ -533,7 +538,8 @@
 
                     <img src="" class="img-modal-post">
                 </div>
-                <h4 class="user-text-post"></h4>
+                <h4 class="user-text-post text-end"></h4>
+               
             </div>
             <div class="comment">
                 <h4>Comment:</h4>
@@ -542,7 +548,7 @@
                 </div>
                 <div class="input-btn-modal">
 
-                    <textarea placeholder="ketik sesuatu?" type="text" id="comments"></textarea>
+                    <textarea required placeholder="ketik sesuatu?" type="text" id="comments"></textarea>
                     <button type="submit" id="btn-comment">Kirim</button>
                 </div>
             </div>
@@ -554,3 +560,7 @@
    <script src="signinup.js"></script>
 </body>
 </html>
+
+
+
+

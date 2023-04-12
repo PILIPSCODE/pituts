@@ -16,6 +16,9 @@ router.put('/upload/:id',(req,res) => {
         else{
             console.log(req.file)
             if(req.file === undefined){
+                const name = await Users.findOne({name:req.body.name});
+                if(name)
+                return res.status(409).send({message:"name Already Exist!"})
                 await Users.updateOne({_id:req.params.id},{
                     $set:{name:req.body.name,bio:req.body.bio,web:req.body.web}
                  })
@@ -30,6 +33,9 @@ router.put('/upload/:id',(req,res) => {
                 res.send({msg:"file no acc"})
             }else{
                 const filename  = req.body.imgold;
+                const name = await Users.findOne({name:req.body.name});
+                if(name)
+                return res.status(409).send({message:"name Already Exist!"})
                 if(filename !== "nologin pic.jpg"){
 
                     const imagePath = path.join(__dirname,'../',filename);
@@ -50,6 +56,7 @@ router.put('/upload/:id',(req,res) => {
                       {email:req.body.email},
                       {$set:{pp:req.file.path,nameofpost:req.body.name,bio:req.body.bio}
                   })
+               
                   res.send({msg:"edited"})
             }
         }

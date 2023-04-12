@@ -16,7 +16,9 @@ const Usermodel = mongoose.Schema({
       type:String,
       require:true
      },
-     admin:false,
+     admin:{
+      default:false
+     },
      created:{
       type:String,
       default:"kunnn"
@@ -32,6 +34,10 @@ const Usermodel = mongoose.Schema({
      web:{
       type:String,
       default:"https://pilipscode.github.io/Portfolio-new/"
+     },
+     todoispublic:{
+      default:false,
+      type:Boolean
      }
 })
 

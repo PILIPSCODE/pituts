@@ -23,7 +23,7 @@ router.post('/todo-list',(req,res) => {
         email:req.body.email,
         time:time,
         date:date,
-        ispublic:false,
+        ismain:req.body.ismain,
         isfinish:false,
     })
     todoList.save((err,data) => {

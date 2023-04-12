@@ -8,7 +8,12 @@ const jwt = require('jsonwebtoken')
 
 
 
-
+router.post('/infouser',(req,res) => {
+    Users.find({name:req.body.name},(err,data) => {
+        if(err) console.log(err)
+        res.json(data)
+    })
+})
 
 router.get('/profile',auth,async(req,res) => {
     const user = await Users.findById(req.user._id)
@@ -21,6 +26,13 @@ router.get('/profile',auth,async(req,res) => {
     id:user._id,
     email:user.email
   })
+})
+
+router.get('/todopub',(req,res) => {
+    Users.find({todoispublic:true},(err,data) => {
+        if(err) console.log(err)
+        res.json(data)
+    })
 })
 
 router.post('/tokenValid', async (req,res) => {
@@ -124,3 +136,18 @@ const validate = (data) => {
 
 
 module.exports = router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// pertama get data user,filter == publictrue,map ,
