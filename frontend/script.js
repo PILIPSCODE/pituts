@@ -1,6 +1,6 @@
 
 
-const ENDPOINT = `https://pituts-production.up.railway.app/`;
+const ENDPOINT = `https://pituts-production.up.railway.app`;
 // Memilih elemen DOM
 const el = (selector) => document.querySelector(selector);
 const [
