@@ -17,7 +17,7 @@ const comments = require('./Router/commentsRoute')
 const cors = require('cors')
 
 
-app.use(express.static("frontend"));
+
 
 app.use((req,res,next) => {
   res.setHeader('Access-Control-Allow-Origin','*');
@@ -25,7 +25,7 @@ app.use((req,res,next) => {
   res.setHeader('Access-Control-Allow-Headers' ,'Content-Type, Authorization');
   next()
 })
-
+app.use(express.static("frontend"));
 
 app.use(cors())
 
